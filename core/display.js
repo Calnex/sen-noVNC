@@ -396,13 +396,7 @@ export default class Display {
                 'height': height,
             });
         } else {
-            // NB(directxman12): arr must be an Type Array view
-            let data = new Uint8ClampedArray(arr.buffer,
-                                             arr.byteOffset + offset,
-                                             width * height * 4);
-            let img = new ImageData(data, width, height);
-            this._drawCtx.putImageData(img, x, y);
-            this._damage(x, y, width, height);
+            this._bgrxImageData(x, y, width, height, arr, offset);
         }
     }
 
@@ -454,11 +448,24 @@ export default class Display {
     }
 
     _setFillColor(color) {
-        const newStyle = 'rgb(' + color[0] + ',' + color[1] + ',' + color[2] + ')';
+        const newStyle = 'rgb(' + color[2] + ',' + color[1] + ',' + color[0] + ')';
         if (newStyle !== this._prevDrawStyle) {
             this._drawCtx.fillStyle = newStyle;
             this._prevDrawStyle = newStyle;
         }
+    }
+
+    _bgrxImageData(x, y, width, height, arr, offset) {
+        const img = this._drawCtx.createImageData(width, height);
+        const data = img.data;
+        for (let i = 0, j = offset; i < width * height * 4; i += 4, j += 4) {
+            data[i]     = arr[j + 2];
+            data[i + 1] = arr[j + 1];
+            data[i + 2] = arr[j];
+            data[i + 3] = 255;  // Alpha
+        }
+        this._drawCtx.putImageData(img, x, y);
+        this._damage(x, y, img.width, img.height);
     }
 
     _renderQPush(action) {

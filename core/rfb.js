@@ -3176,9 +3176,9 @@ RFB.messages = {
         sock.sQpush16((1 << bits) - 1); // green-max
         sock.sQpush16((1 << bits) - 1); // blue-max
 
-        sock.sQpush8(bits * 0); // red-shift
+        sock.sQpush8(bits * 2); // red-shift
         sock.sQpush8(bits * 1); // green-shift
-        sock.sQpush8(bits * 2); // blue-shift
+        sock.sQpush8(bits * 0); // blue-shift
 
         sock.sQpush8(0); // padding
         sock.sQpush8(0); // padding
