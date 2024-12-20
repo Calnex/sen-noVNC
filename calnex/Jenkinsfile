@@ -17,13 +17,10 @@ pipeline {
         stage('Release')
         {
             steps {
-                // folllowing structure:
-                // dir1/info-app.txt
-                // dir1/error-app.txt
                 fileOperations([fileCopyOperation(
                     includes: '**/build/*.tar',
-                    targetLocation: '/mnt/releases',
-                    flattenFiles: true
+                    targetLocation: 'logs/',
+                    flattenFiles: true)
                 ])            
             }
         }
