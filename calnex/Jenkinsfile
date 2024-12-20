@@ -5,6 +5,11 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'make -C calnex clean all'
+            }
+        }
+
+        stage('Archive') {
+            steps {
                 archiveArtifacts artifacts: '**/build/*.tar', fingerprint: false
             }
         }
