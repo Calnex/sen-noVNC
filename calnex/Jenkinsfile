@@ -2,14 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Code') {
-            steps {
-                // Get some code from a GitHub repository
-                git branch: 'cx', url: 'git@github.com:Calnex/sen-noVNC'
-            }
-
-        }
-        
         stage('Build') {
             steps {
                 sh 'make -C calnex clean all'
