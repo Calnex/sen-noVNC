@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                make -C calnex clean all
+                sh 'make -C calnex clean all'
             }
         }
     }
